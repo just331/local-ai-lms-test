@@ -1,2 +1,2 @@
-# local-ai-chatbot-test
-Testing developing local AI chatbot and API endpoints for scaling 
+# local-ai-lms-test
+Testing and developing local AI LMS and API endpoints for scaling 
