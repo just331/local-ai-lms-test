@@ -6,3 +6,14 @@ timestamp,user_id,lesson_id,submission,tokens_used,prompt_tokens,completion_toke
 2. **Difficult Search Problems**: The student does not refer to ASP's orientation towards difficult search problems. Recommend adding a statement about how ASP is oriented towards solving such problems.
 
 To improve the response, the student could revise their answer to: ""ASP is a declarative programming language based on logic programming and nonmonotonic reasoning, used to generate answer sets for difficult search problems."""
+2025-06-02T12:39:22.093259,test_user,answer_set_programming_definition,asp is a functional prgamming language ,373,248,125,"The student's answer is completely off-topic.
+
+The student's answer describes ASP incorrectly as a functional programming language, which is not accurate.
+
+Here's the acceptable answer: ""Answer Set Programming (ASP) is a declarative programming paradigm oriented towards difficult search problems; it is based on logic programming and nonmonotonic reasoning. In ASP, solutions are represented as 'answer sets' for a given logic program.""
+
+To improve, the student should:
+
+1. Mention that ASP is a declarative programming paradigm.
+2. Include references to logic programming and nonmonotonic reasoning.
+3. Describe how solutions in ASP are represented as answer sets."

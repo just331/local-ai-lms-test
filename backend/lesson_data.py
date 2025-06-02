@@ -10,7 +10,6 @@ lesson_rubrics = {
             "Mentions logic programming/nonmonotonic reasoning",
             "Mentions answer sets/solutions",
         ],
-        "sample_mc_correct": "b",
         "expected_keywords": [
             "declarative", "logic programming", "nonmonotonic", "answer sets", "search problems"
         ]

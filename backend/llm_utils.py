@@ -16,7 +16,7 @@ def evaluate_submission(submission, precise_answer, rubric, expected_keywords):
 
     Acceptable answer: "{precise_answer}"
 
-    Rubric: {chr(10).join(f"- {point}" for point in rubric)}
+    Rubric: {'\n'.join(f"- {point}" for point in rubric)}
     Expected keywords or phrases the student should use: {', '.join(expected_keywords)}
 
     Student's answer: "{submission}"
