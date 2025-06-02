@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LLM-LMS Test Submissions/Feedback</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 2em;
+            background-color: #f4f4f4;
+        }
+        .container{
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px #bbb;
+            max-width: 600px;
+            padding: 2em;
+            margin: auto;
+        }
+        textarea {
+            width: 100%;
+            min-height: 100px;
+            font-family: monospace;
+        }
+    button {
+        padding: 0.5em 2em;
+        border-radius: 8px; border: none;
+        background: #3a77f5;
+        color: white;
+        font-size: 1.1em;
+        margin-top: 1em;
+    }
+  #result {
+    margin-top: 2em;
+    padding: 1em;
+    border-radius: 8px;
+    background: #e8f5e9;
+    max-width: 100%;
+    word-break: break-word;
+    white-space: pre-wrap;
+    box-sizing: border-box;
+    overflow-x: auto;
+  }
+  .container {
+    max-width: 600px;
+    overflow: hidden;
+  }
+    label, select { font-weight: bold; }
+    </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Test LLM-LMS Feedback</h2>
+    <form id="llm-form">
+      <label for="lesson_id">Lesson/Problem:</label>
+      <select id="lesson_id">
+        <option value="asp_ancestor_definition">ASP: Ancestor Definition</option>
+        <option value="answer_set_programming_definition">Logic Programming: Introduction</option>
+        <!-- Add more problems as you add to your backend -->
+      </select><br><br>
+      <div id="desc"></div>
+      <label for="submission">Your Answer:</label><br>
+      <textarea id="submission" required></textarea><br>
+      <button type="submit">Submit</button>
+    </form>
+    <div id="result"></div>
+  </div>
+  <script>
+    const lessonDescriptions = {
+      asp_ancestor_definition: "Define the ancestor relationship in Answer Set Programming using ASP rules. For example, show both the base case (parent) and the recursive case (ancestor).",
+      answer_set_programming_definition: "Briefly describe what Answer Set Programming is.",
+
+    };
+    function updateDesc() {
+      const lessonId = document.getElementById("lesson_id").value;
+      document.getElementById("desc").textContent = lessonDescriptions[lessonId] || "Describe your answer for the selected lesson/problem.";
+    }
+
+    // Set initial description
+    window.onload = updateDesc;
+    document.getElementById("lesson_id").onchange = updateDesc;
+
+    document.getElementById("llm-form").onsubmit = async function(e) {
+      e.preventDefault();
+      const lesson_id = document.getElementById("lesson_id").value;
+      const submission = document.getElementById("submission").value;
+      document.getElementById("result").innerHTML = "Evaluating Submission...";
+      const resp = await fetch("http://127.0.0.1:8000/api/feedback/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          lesson_id,
+          submission,
+          // submission_type: "free_text" // Or "free_text" if appropriate
+        })
+      });
+      const data = await resp.json();
+      document.getElementById("result").innerHTML =
+        "<b>Feedback:</b><br><pre>" + (data.feedback || JSON.stringify(data)) + "</pre>";
+    }
+  </script>
+</body>
+</html>
