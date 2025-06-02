@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
+from log_utils import log_submission
 from lesson_data import lesson_rubrics
 from llm_utils import evaluate_submission
 
@@ -19,6 +20,7 @@ class Submission(BaseModel):
     lesson_id: str
     submission: str
     # submission_type: str
+    # user_id: str
 
 
 @app.post("/api/feedback/")
@@ -27,12 +29,23 @@ def give_feedback(submission: Submission):
         lesson = lesson_rubrics.get(submission.lesson_id)
         if not lesson:
             raise HTTPException(status_code=404, detail="Lesson not found")
-        feedback = evaluate_submission(
+        feedback, tokens_used, prompt_tokens, completion_tokens = evaluate_submission(
             submission.submission,
             lesson["definition"],
             lesson["rubric"],
             lesson["expected_keywords"],
         )
+
+        log_submission(
+            user_id="test_user",
+            lesson_id=submission.lesson_id,
+            submission=submission.submission,
+            feedback=feedback,
+            tokens_used=tokens_used,
+            prompt_tokens=prompt_tokens,
+            completion_tokens=completion_tokens
+        )
         return {"feedback": feedback}
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

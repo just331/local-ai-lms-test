@@ -1,0 +1,8 @@
+timestamp,user_id,lesson_id,submission,tokens_used,prompt_tokens,completion_tokens,feedback
+2025-06-02T00:45:10.272399,test_user,answer_set_programming_definition,ASP is a declarative programming language used to generate answer sets for problems.,391,254,137,"The student's answer is missing some key aspects according to the rubric:
+
+1. **Logic Programming/Nonmonotonic Reasoning**: The student's answer does not mention the connection of ASP to logic programming or nonmonotonic reasoning. Suggest mentioning that ASP is based on these concepts.
+   
+2. **Difficult Search Problems**: The student does not refer to ASP's orientation towards difficult search problems. Recommend adding a statement about how ASP is oriented towards solving such problems.
+
+To improve the response, the student could revise their answer to: ""ASP is a declarative programming language based on logic programming and nonmonotonic reasoning, used to generate answer sets for difficult search problems."""

@@ -34,5 +34,9 @@ def evaluate_submission(submission, precise_answer, rubric, expected_keywords):
             {"role": "user", "content": prompt}
         ],
     )
+    feedback = response.choices[0].message.content.strip()
+    tokens_used = response.usage.total_tokens if response.usage else None
+    prompt_tokens = response.usage.prompt_tokens if response.usage else None
+    completion_tokens = response.usage.completion_tokens if response.usage else None
 
-    return response.choices[0].message.content.strip()
+    return feedback, tokens_used, prompt_tokens, completion_tokens
