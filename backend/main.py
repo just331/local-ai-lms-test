@@ -18,6 +18,7 @@ app.add_middleware(
 
 class Submission(BaseModel):
     lesson_id: str
+    question_id: str
     submission: str
     # submission_type: str
     # user_id: str
@@ -27,18 +28,23 @@ class Submission(BaseModel):
 def give_feedback(submission: Submission):
     try:
         lesson = lesson_rubrics.get(submission.lesson_id)
+        question = lesson.get(submission.question_id)
+        if not question:
+            raise HTTPException(status_code=404, detail="Question not found in the lesson")
         if not lesson:
             raise HTTPException(status_code=404, detail="Lesson not found")
+
         feedback, tokens_used, prompt_tokens, completion_tokens = evaluate_submission(
             submission.submission,
-            lesson["definition"],
-            lesson["rubric"],
-            lesson["expected_keywords"],
+            question["definition"],
+            question["rubric"],
+            question["expected_keywords"],
         )
 
         log_submission(
             user_id="test_user",
             lesson_id=submission.lesson_id,
+            question_id=submission.question_id,
             submission=submission.submission,
             feedback=feedback,
             tokens_used=tokens_used,
