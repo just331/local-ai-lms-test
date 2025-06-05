@@ -1,0 +1,9 @@
+{
+  "logic_programming": {
+    "asp_ancestor_definition": {
+      "fully_correct": "Excellent! You defined both the base and recursive cases for the ancestor relationship.",
+      "partially_correct": "You included the base case, but missed the recursive case. Please review recursion.",
+      "off_topic": "Your answer does not address the logic programming problem. Please review the lesson and try again."
+    }
+  }
+}

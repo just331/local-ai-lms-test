@@ -17,24 +17,24 @@ lessons = {
     questions: {
       "function_comprehension": {
         display: "Function Comprehension",
-        description: "Describe the purpose of the addition (+) function and then give an example using it and list its components: function, input, and value."
+        description: "Describe the purpose of the addition operator (+) as a function and then give an example using it and list its components: function, input, and value."
       },
-      "expression_comprehension": {
+      "set_comprehension": {
         display: "Expression Comprehension",
         description: "Can you explain how you determined the value of the expression 3 + 20, using the concepts of function, input and value?"
       }
     }
   },
-    "statistics": {
-    display: "Statistics",
+    "fundamental_concepts_math_cs": {
+    display: "Fundamental Concepts in Math and CS",
     questions: {
-      "s1": {
-        display: "S1",
-        description: "Question 1"
+      "roster_notation": {
+        display: "Roster Notation",
+        description: "Write the set containing the numbers 4, 9, and 24 in roster notation."
       },
-      "s2": {
-        display: "S2",
-        description: "Question 2"
+      "natural_numbers_def": {
+        display: "Natural Numbers Definition",
+        description: "Describe what a natural number is and why we don't consider 0 to apart of the natural set of numbers."
       }
     }
   },
@@ -94,17 +94,26 @@ document.getElementById("llm-form").onsubmit = async function(e) {
       const question_id = questionSelect.value;
       const submission = document.getElementById("submission").value;
       document.getElementById("result").innerHTML = "Evaluating Submission...";
-      const resp = await fetch("http://127.0.0.1:8000/api/feedback/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          lesson_id,
-          question_id,
-          submission,
-          // submission_type: "free_text" // Or "free_text" if appropriate
-        })
-      });
-      const data = await resp.json();
-      document.getElementById("result").innerHTML =
-        "<b>Feedback:</b><br><pre>" + (data.feedback || JSON.stringify(data)) + "</pre>";
+      try{
+              const resp = await fetch("http://127.0.0.1:8000/api/feedback/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              lesson_id,
+              question_id,
+              submission,
+              // submission_type: "free_text" // Or "free_text" if appropriate
+            })
+          });
+          const data = await resp.json();
+          if(data.error){
+              document.getElementById("result").innerHTML = `<span style="color: red;"><b>Error:</b> ${data.error}</span>`;
+          }else{
+              document.getElementById("result").innerHTML =
+                    `<b>Feedback:</b><br><pre>${data.feedback}</pre>` +  `<b>Category:</b> ${data.category}`;
+          }
+      }catch (err) {
+          document.getElementById("result").innerHTML = `<span style="color: red;"><b>Request failed:</b> ${err}</span>`;
+      }
+
 }

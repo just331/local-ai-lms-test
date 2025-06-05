@@ -1,10 +1,15 @@
+import json
+
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
-from log_utils import log_submission
-from lesson_data import lesson_rubrics
-from llm_utils import evaluate_submission
+from lesson_data import lesson_canonicals
 
+from lesson_training_data import answers
+from classifier_utils import classify_submission_category
+
+with open("curated_feedback.json", "r", encoding="utf-8") as f:
+    feedback_bank = json.load(f)
 
 app = FastAPI()
 app.add_middleware(
@@ -22,36 +27,35 @@ class Submission(BaseModel):
     submission: str
     # submission_type: str
     # user_id: str
+    # llm: str = "openai"  # or "gemini"
 
 
 @app.post("/api/feedback/")
 def give_feedback(submission: Submission):
     try:
-        lesson = lesson_rubrics.get(submission.lesson_id)
+        lesson = lesson_canonicals.get(submission.lesson_id)
         question = lesson.get(submission.question_id)
         if not question:
             raise HTTPException(status_code=404, detail="Question not found in the lesson")
         if not lesson:
             raise HTTPException(status_code=404, detail="Lesson not found")
 
-        feedback, tokens_used, prompt_tokens, completion_tokens = evaluate_submission(
-            submission.submission,
-            question["definition"],
-            question["rubric"],
-            question["expected_keywords"],
-        )
-
-        log_submission(
-            user_id="test_user",
-            lesson_id=submission.lesson_id,
-            question_id=submission.question_id,
-            submission=submission.submission,
-            feedback=feedback,
-            tokens_used=tokens_used,
-            prompt_tokens=prompt_tokens,
-            completion_tokens=completion_tokens
-        )
-        return {"feedback": feedback}
+        # Fetch training data for this question
+        sample_sets = answers[submission.lesson_id][submission.question_id]
+        correct = sample_sets.get("correct", [])
+        partial = sample_sets.get("partial", [])
+        nonsense = sample_sets.get("nonsense", [])
+        # Classify
+        category = classify_submission_category(submission.submission, correct, partial, nonsense)
+        feedback = feedback_bank[submission.lesson_id][submission.question_id][category]
+        print(category)
+        print(feedback)
+        return {
+            "category": category,
+            "feedback": feedback
+        }
 
     except Exception as e:
+        import traceback
+        print(traceback.format_exc())
         raise HTTPException(status_code=500, detail=str(e))

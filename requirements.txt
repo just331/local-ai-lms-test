@@ -3,3 +3,4 @@ uvicorn
 openai~=1.82.1
 pydantic~=2.11.5
 python-dotenv~=1.1.0
+numpy~=2.2.6
