@@ -95,7 +95,8 @@ document.getElementById("llm-form").onsubmit = async function(e) {
       const submission = document.getElementById("submission").value;
       document.getElementById("result").innerHTML = "Evaluating Submission...";
       try{
-              const resp = await fetch("http://127.0.0.1:8000/api/feedback/", {
+
+              const resp = await fetch("https://llm-lms-test.onrender.com/api/feedback/", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -103,6 +104,7 @@ document.getElementById("llm-form").onsubmit = async function(e) {
               question_id,
               submission,
               // submission_type: "free_text" // Or "free_text" if appropriate
+                //http://127.0.0.1:8000/api/feedback/
             })
           });
           const data = await resp.json();
