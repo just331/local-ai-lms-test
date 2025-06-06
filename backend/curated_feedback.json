@@ -1,9 +1,38 @@
 {
   "logic_programming": {
+    "answer-set-programming-definition": {
+      "fully_correct": "Great job! You provided a clear definition of answer set programming.",
+      "partially_correct": "Your answer is partially correct but may be missing key aspects of Answer Set Programming (ASP). For a complete definition, ensure you include that ASP is a declarative programming paradigm, it is oriented towards difficult search problems, it is based on logic programming and nonmonotonic reasoning, and that solutions are represented as 'answer sets'.",
+      "off_topic": "The answer is incorrect. Answer Set Programming (ASP) is a declarative programming paradigm oriented towards difficult search problems; it is based on logic programming and nonmonotonic reasoning. In ASP, solutions are represented as 'answer sets' for a given logic program."
+    },
     "asp_ancestor_definition": {
-      "fully_correct": "Excellent! You defined both the base and recursive cases for the ancestor relationship.",
-      "partially_correct": "You included the base case, but missed the recursive case. Please review recursion.",
-      "off_topic": "Your answer does not address the logic programming problem. Please review the lesson and try again."
+      "fully_correct": "Correct. No feedback needed.",
+      "partially_correct": "Your answer is partially correct but is missing a key component. A complete definition for the ancestor relationship requires both a base case to handle direct parents and a recursive case to handle all other ancestors. Ensure your answer includes both rules.",
+      "off_topic": "The response was completely incorrect. The canonical answer, which defines the ancestor relationship in ASP, is:\n\nancestor(X,Y) :- parent(X,Y).\nancestor(X,Y) :- parent(X,Z), ancestor(Z,Y)."
     }
-  }
+  },
+  "numbers_functions_expressions": {
+        "function_comprehension": {
+          "fully_correct": "Correct. No feedback needed.",
+          "partially_correct": "Your answer is on the right track but lacks some specifics. Please elaborate on the concept of addition as a function by clearly identifying the inputs (arguments), the operator, and the output (value).",
+          "off_topic": "The response was completely incorrect. The canonical answer is: The addition operator can be defined as a function that takes two arguments as input and returns their sum as its value. For example, in the expression 9+1=10, the numbers 9 and 1 are the inputs, the function is the + operator, and the value of the function is 10."
+        },
+        "expression_comprehension": {
+          "fully_correct": "Correct. No feedback needed.",
+          "partially_correct": "While your answer may be numerically correct, it is incomplete. Please explain the operation being performed (addition), identify the operator, and specify the inputs to fully describe the expression.",
+          "off_topic": "The response was completely incorrect. The canonical answer is: The function acting on the input of 3 and 20 is the addition operator, which means we add the two inputs to get the value of 23."
+        }
+    },
+    "fundamental_concepts_math_cs": {
+        "roster_notation": {
+          "fully_correct": "Correct. No feedback needed.",
+          "partially_correct": "Your answer is partially correct. Ensure your set contains all, and only, the required elements: 4, 9, and 24. The order of elements in roster notation does not matter.",
+          "off_topic": "The response was completely incorrect. The canonical answer is a set containing the numbers 4, 9, and 24, with the order of elements not being important, such as [4, 9, 24]."
+        },
+        "natural_numbers_def": {
+          "fully_correct": "Correct. No feedback needed.",
+          "partially_correct": "Your answer is partially correct. It is important to specify that natural numbers are positive integers or whole numbers (e.g., 1, 2, 3,...) and to be aware that while some definitions include 0, the more common convention excludes it.",
+          "off_topic": "Your answer is incorrect as it states that natural numbers are fractions, which is not true.\\\\n- The canonical answer is: 'Natural numbers are numbers within the set of positive integers/whole-numbers starting from 1. 0 is not a natural number because it is not considered a positive integer."
+        }
+    }
 }
